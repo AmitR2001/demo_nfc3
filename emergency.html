@@ -47,6 +47,7 @@
             text-decoration: underline;
         }
     </style>
+    <script src="app.js"></script>
 </head>
 <body>
     <div class="container">
@@ -80,13 +81,7 @@
         });
 
         function parseNFCData(data) {
-            const sections = data.split('\n').map(section => section.trim());
-            const userDetails = {};
-            sections.forEach(section => {
-                const [key, value] = section.split('|');
-                userDetails[key] = value;
-            });
-            return userDetails;
+            return parseDataFromNFC(data); // Use function from app.js
         }
 
         function displayUserDetails(details) {
@@ -94,30 +89,30 @@
             container.innerHTML = `
                 <div class="section">
                     <h2>Basic Patient Information</h2>
-                    <p><strong>Full Name:</strong> ${details['1.PI|FN']}</p>
-                    <p><strong>Age:</strong> ${details['1.PI|A']}</p>
-                    <p><strong>Gender:</strong> ${details['1.PI|G']}</p>
-                    <p><strong>Blood Type:</strong> ${details['1.PI|BT']}</p>
+                    <p><strong>Full Name:</strong> ${details['1.PI|FN'] || 'N/A'}</p>
+                    <p><strong>Age:</strong> ${details['1.PI|A'] || 'N/A'}</p>
+                    <p><strong>Gender:</strong> ${details['1.PI|G'] || 'N/A'}</p>
+                    <p><strong>Blood Type:</strong> ${details['1.PI|BT'] || 'N/A'}</p>
                 </div>
                 <div class="section">
                     <h2>Allergies</h2>
-                    <p><strong>Drug:</strong> ${details['2.AL|D']}</p>
-                    <p><strong>Food:</strong> ${details['2.AL|F']}</p>
-                    <p><strong>Environmental:</strong> ${details['2.AL|E']}</p>
+                    <p><strong>Drug:</strong> ${details['2.AL|D'] || 'N/A'}</p>
+                    <p><strong>Food:</strong> ${details['2.AL|F'] || 'N/A'}</p>
+                    <p><strong>Environmental:</strong> ${details['2.AL|E'] || 'N/A'}</p>
                 </div>
                 <div class="section">
                     <h2>Chronic Conditions</h2>
-                    <p><strong>Diabetes:</strong> ${details['3.CC|D']}</p>
-                    <p><strong>Hypertension:</strong> ${details['3.CC|H']}</p>
-                    <p><strong>Asthma:</strong> ${details['3.CC|A']}</p>
-                    <p><strong>Heart Disease:</strong> ${details['3.CC|HD']}</p>
-                    <p><strong>Kidney Disease:</strong> ${details['3.CC|KD']}</p>
+                    <p><strong>Diabetes:</strong> ${details['3.CC|D'] || 'N/A'}</p>
+                    <p><strong>Hypertension:</strong> ${details['3.CC|H'] || 'N/A'}</p>
+                    <p><strong>Asthma:</strong> ${details['3.CC|A'] || 'N/A'}</p>
+                    <p><strong>Heart Disease:</strong> ${details['3.CC|HD'] || 'N/A'}</p>
+                    <p><strong>Kidney Disease:</strong> ${details['3.CC|KD'] || 'N/A'}</p>
                 </div>
                 <div class="section">
                     <h2>Emergency Contact</h2>
-                    <p><strong>Name:</strong> ${details['6.EC|N']}</p>
-                    <p><strong>Relationship:</strong> ${details['6.EC|R']}</p>
-                    <p><strong>Phone:</strong> ${details['6.EC|P']}</p>
+                    <p><strong>Name:</strong> ${details['6.EC|N'] || 'N/A'}</p>
+                    <p><strong>Relationship:</strong> ${details['6.EC|R'] || 'N/A'}</p>
+                    <p><strong>Phone:</strong> ${details['6.EC|P'] || 'N/A'}</p>
                 </div>
                 <div class="section contact-links">
                     <p><a href="tel:${details['6.EC|P']}">Call Emergency Contact</a></p>
